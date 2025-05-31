@@ -8,4 +8,6 @@ class AppIcons {
   static String get verifyIcon => "assets/icons/verify.svg";
   static String get callIcon => "assets/icons/call.svg";
   static String get locationIcon => "assets/icons/location.svg";
+  static String get facebookIcon => "assets/icons/Facebook.svg";
+  static String get googleIcon => "assets/icons/google.svg";
 }

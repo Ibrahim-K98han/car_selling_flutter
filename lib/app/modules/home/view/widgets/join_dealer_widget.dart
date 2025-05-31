@@ -1,4 +1,3 @@
-
 import 'package:car_selling/app/utils/app_colors.dart';
 import 'package:car_selling/app/utils/app_images.dart';
 import 'package:car_selling/app/utils/text_font_style.dart';
@@ -6,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class JoinDealerWidget extends StatelessWidget {
-  const JoinDealerWidget({
-    super.key,
-  });
+  const JoinDealerWidget({super.key, required this.onTap});
+
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +60,7 @@ class JoinDealerWidget extends StatelessWidget {
                   ),
                   backgroundColor: AppColors.c405FF2,
                 ),
-                onPressed: () {},
+                onPressed: onTap,
                 child: Text(
                   'Decome a Dealer',
                   style: TextFontStyle.headline14w400c6B6C6C.copyWith(

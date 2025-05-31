@@ -9,6 +9,7 @@ import 'package:car_selling/app/modules/home/view/widgets/discount_banner.dart';
 import 'package:car_selling/app/modules/home/view/widgets/join_dealer_widget.dart';
 import 'package:car_selling/app/modules/home/view/widgets/popular_category_widget.dart';
 import 'package:car_selling/app/modules/home/view/widgets/top_dealer_container.dart';
+import 'package:car_selling/app/modules/login/view/login_view.dart';
 import 'package:car_selling/app/utils/app_colors.dart';
 import 'package:car_selling/app/utils/app_images.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -204,7 +205,14 @@ class _HomeViewState extends State<HomeView> {
             ),
             SizedBox(height: 20.h),
             //========== Join Dealer ============//
-            JoinDealerWidget(),
+            JoinDealerWidget(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginView()),
+                );
+              },
+            ),
             SizedBox(height: 20.h),
             //=========== Car Listings Heading ==============//
             CategoryWidgetHeading(
