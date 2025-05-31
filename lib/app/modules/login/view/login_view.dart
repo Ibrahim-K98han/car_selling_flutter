@@ -1,5 +1,6 @@
 import 'package:car_selling/app/modules/login/view/widgets/custom_rich_text.dart';
 import 'package:car_selling/app/modules/login/view/widgets/google_facebook_login_widget.dart';
+import 'package:car_selling/app/modules/register/view/register_view.dart';
 import 'package:car_selling/app/utils/app_colors.dart';
 import 'package:car_selling/app/utils/text_font_style.dart';
 import 'package:car_selling/app/widgets/common_text_form_field.dart';
@@ -113,18 +114,27 @@ class LoginView extends StatelessWidget {
                       ),
                       SizedBox(height: 16.h),
                       Center(
-                        child: RichText(
-                          text: TextSpan(
-                            text: 'Don\'t have an account? ',
-                            style: TextFontStyle.headline12w400cFFFFFF.copyWith(
-                              color: Colors.black,
-                            ),
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: 'Sign Up',
-                                style: TextStyle(color: Colors.blue),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RegisterView(),
                               ),
-                            ],
+                            );
+                          },
+                          child: RichText(
+                            text: TextSpan(
+                              text: 'Don\'t have an account? ',
+                              style: TextFontStyle.headline12w400cFFFFFF
+                                  .copyWith(color: Colors.black),
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: 'Sign Up',
+                                  style: TextStyle(color: Colors.blue),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
