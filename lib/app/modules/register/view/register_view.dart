@@ -28,7 +28,7 @@ class RegisterView extends StatelessWidget {
                 child: Icon(Icons.arrow_back),
               ),
             ),
-            SizedBox(height: 40.h),
+            SizedBox(height: 30.h),
             Expanded(
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
@@ -48,19 +48,19 @@ class RegisterView extends StatelessWidget {
                         style: TextFontStyle.headline14DMSansw600c0D274E
                             .copyWith(fontSize: 24.sp),
                       ),
-                      SizedBox(height: 26.h),
+                      SizedBox(height: 12.h),
                       //============ Name Label =========//
                       CustomRichText(text: 'Name', requiredText: '*'),
                       SizedBox(height: 6.h),
                       //============ Name InputFiled =========//
                       CommonTextFormField(hintText: 'Name here'),
-                      SizedBox(height: 16.h),
+                      SizedBox(height: 12.h),
                       //============ Email Address Label =========//
                       CustomRichText(text: 'Email Address', requiredText: '*'),
                       SizedBox(height: 6.h),
                       //============ Email Address InputFiled =========//
                       CommonTextFormField(hintText: 'Email here'),
-                      SizedBox(height: 16.h),
+                      SizedBox(height: 12.h),
                       //============ Password Label =========//
                       CustomRichText(text: 'Password', requiredText: '*'),
                       SizedBox(height: 6.h),
@@ -72,7 +72,7 @@ class RegisterView extends StatelessWidget {
                           icon: Icon(Icons.visibility_outlined),
                         ),
                       ),
-                      SizedBox(height: 16.h),
+                      SizedBox(height: 12.h),
                       //============ Confirm Password Label =========//
                       CustomRichText(
                         text: 'Confirm Password',
@@ -120,7 +120,7 @@ class RegisterView extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(height: 16.h),
+                      SizedBox(height: 12.h),
                       Center(
                         child: GestureDetector(
                           onTap: () {
@@ -146,7 +146,7 @@ class RegisterView extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(height: 60.h),
+                      SizedBox(height: 20.h),
                       Center(child: Text('Register with:')),
                       SizedBox(height: 16.h),
                       //============ Google and Facebook login==========//
