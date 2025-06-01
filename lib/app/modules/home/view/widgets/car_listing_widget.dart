@@ -39,7 +39,7 @@ class CarListingWidget extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset(
+              Image.network(
                 carImage,
                 height: 120,
                 width: double.infinity,
@@ -65,7 +65,7 @@ class CarListingWidget extends StatelessWidget {
                     ),
                     SizedBox(height: 10.h),
                     Text(
-                      carPrice,
+                      '\$$carPrice',
                       style: TextFontStyle.headline14DMSansw600c0D274E.copyWith(
                         color: AppColors.c405FF2,
                       ),

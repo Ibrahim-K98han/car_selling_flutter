@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:car_selling/app/modules/home/controller/car_controller.dart';
 import 'package:car_selling/app/modules/home/model/car_listing_model.dart';
 import 'package:car_selling/app/modules/home/model/popular_category_model.dart';
 import 'package:car_selling/app/modules/home/view/widgets/car_listing_widget.dart';
@@ -15,6 +16,9 @@ import 'package:car_selling/app/utils/app_images.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:get/instance_manager.dart';
 
 import 'widgets/custom_text_form_field.dart';
 import 'widgets/person_info_widget.dart';
@@ -27,6 +31,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  final CarController carController = Get.put(CarController());
   int _currentIndex = 0;
 
   //============ Carousel Slider Item List========//
@@ -107,19 +112,51 @@ class _HomeViewState extends State<HomeView> {
               ],
             ),
             //============== Show CarouselSlider ========//
-            CarouselSlider(
-              items: _item,
-              options: CarouselOptions(
-                autoPlay: true,
-                enlargeCenterPage: true,
-                viewportFraction: 0.9,
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                },
-              ),
-            ),
+            Obx(() {
+              if (carController.isLoading.value) {
+                return Center(child: CircularProgressIndicator());
+              } else if (carController.errorMessage.isNotEmpty) {
+                return Center(child: Text(carController.errorMessage.value));
+              } else {
+                return CarouselSlider(
+                  items:
+                      carController.slider.map((item) {
+                        return Container(
+                          height: 165.h,
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 10.w,
+                            vertical: 10.h,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            image:
+                                item.image.isEmpty
+                                    ? DecorationImage(
+                                      image: NetworkImage(item.image),
+                                      fit: BoxFit.fill,
+                                    )
+                                    : DecorationImage(
+                                      image: NetworkImage(
+                                        'https://ih1.redbubble.net/image.4905811472.8675/bg,f8f8f8-flat,750x,075,f-pad,750x1000,f8f8f8.jpg',
+                                      ),
+                                      fit: BoxFit.fill,
+                                    ),
+                          ),
+                        );
+                      }).toList(),
+                  options: CarouselOptions(
+                    autoPlay: true,
+                    enlargeCenterPage: true,
+                    viewportFraction: 0.9,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        _currentIndex = index;
+                      });
+                    },
+                  ),
+                );
+              }
+            }),
             //=========== Popular Categories Heading ==============//
             CategoryWidgetHeading(
               heading: 'Popular Categories',
@@ -158,27 +195,38 @@ class _HomeViewState extends State<HomeView> {
             ),
 
             //=========== Feature Car Listings GridView ==============//
-            GridView.builder(
-              padding: EdgeInsets.all(8.r),
-              shrinkWrap: true,
-              physics: BouncingScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                childAspectRatio: 0.7,
-              ),
-              itemCount: CarListingList.length,
-              itemBuilder: (context, index) {
-                final carListing = CarListingList[index];
-                return CarListingWidget(
-                  carImage: carListing.carImage,
-                  carCompanyName: carListing.carCompanyName,
-                  carName: carListing.carName,
-                  carPrice: carListing.carPrice,
+            Obx(() {
+              if (carController.isLoading.value) {
+                return Center(child: CircularProgressIndicator());
+              } else if (carController.errorMessage.isNotEmpty) {
+                return Center(child: Text(carController.errorMessage.value));
+              } else {
+                return GridView.builder(
+                  padding: EdgeInsets.all(8.r),
+                  shrinkWrap: true,
+                  physics: BouncingScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: 0.7,
+                  ),
+                  itemCount: carController.latestCar.length,
+                  itemBuilder: (context, index) {
+                    final carListing = carController.latestCar[index];
+                    return CarListingWidget(
+                      carImage:
+                          carListing.thumbImage.isNotEmpty == false
+                              ? carListing.thumbImage
+                              : 'https://ih1.redbubble.net/image.4905811472.8675/bg,f8f8f8-flat,750x,075,f-pad,750x1000,f8f8f8.jpg',
+                      carCompanyName: carListing.purpose.toString(),
+                      carName: carListing.title.toString(),
+                      carPrice: carListing.regularPrice.toString(),
+                    );
+                  },
                 );
-              },
-            ),
+              }
+            }),
             SizedBox(height: 10.h),
 
             //============== Discount Banner Slider ============//
@@ -222,27 +270,38 @@ class _HomeViewState extends State<HomeView> {
             ),
 
             //=========== Car Listings GridView ==============//
-            GridView.builder(
-              padding: EdgeInsets.all(8.r),
-              shrinkWrap: true,
-              physics: BouncingScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                childAspectRatio: 0.7,
-              ),
-              itemCount: CarListingList.length,
-              itemBuilder: (context, index) {
-                final carListing = CarListingList[index];
-                return CarListingWidget(
-                  carImage: carListing.carImage,
-                  carCompanyName: carListing.carCompanyName,
-                  carName: carListing.carName,
-                  carPrice: carListing.carPrice,
+            Obx(() {
+              if (carController.isLoading.value) {
+                return Center(child: CircularProgressIndicator());
+              } else if (carController.errorMessage.isNotEmpty) {
+                return Center(child: Text(carController.errorMessage.value));
+              } else {
+                return GridView.builder(
+                  padding: EdgeInsets.all(8.r),
+                  shrinkWrap: true,
+                  physics: BouncingScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: 0.7,
+                  ),
+                  itemCount: carController.latestCar.length,
+                  itemBuilder: (context, index) {
+                    final carListing = carController.latestCar[index];
+                    return CarListingWidget(
+                      carImage:
+                          carListing.thumbImage.isNotEmpty == false
+                              ? carListing.thumbImage
+                              : 'https://ih1.redbubble.net/image.4905811472.8675/bg,f8f8f8-flat,750x,075,f-pad,750x1000,f8f8f8.jpg',
+                      carCompanyName: carListing.purpose.toString(),
+                      carName: carListing.title.toString(),
+                      carPrice: carListing.regularPrice.toString(),
+                    );
+                  },
                 );
-              },
-            ),
+              }
+            }),
             SizedBox(height: 10.h),
           ],
         ),
